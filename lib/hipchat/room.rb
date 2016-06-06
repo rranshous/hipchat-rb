@@ -281,6 +281,31 @@ module HipChat
       response.body
     end
 
+    def recent_history(options = {})
+
+      options = {
+        :timezone => 'UTC',
+        :'max-results' => 100,
+        :'not-before' => nil,
+        :'include_deleted' => false
+      }.merge options
+
+      response = self.class.get(@api.recent_history_config[:url],
+        :query => {
+          :room_id    => room_id,
+          :timezone   => options[:timezone],
+          :'max-results' => options[:'max-results'],
+          :'not-before' => options[:'not-before'],
+          :'include_deleted' => options[:'include_deleted'],
+          :auth_token => @token
+        },
+        :headers => @api.headers
+      )
+
+      ErrorHandler.response_code_to_exception_for :room, room_id, response
+      response.body
+    end
+
     # Pull this room's statistics
     def statistics(options = {})
 

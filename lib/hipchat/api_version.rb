@@ -230,6 +230,14 @@ module HipChat
         }[version]
       end
 
+      def recent_history_config
+        {
+          'v2' => {
+            :url => URI::escape("/#{room_id}/history/latest")
+          }
+        }[version]
+      end
+
       def statistics_config
         {
           'v2' => {
